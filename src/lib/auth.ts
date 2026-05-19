@@ -1,17 +1,15 @@
 import { cookies } from 'next/headers'
-import bcrypt from 'bcryptjs'
 
 const SESSION_COOKIE = 'thiboloha_session'
 const SESSION_VALUE = 'authenticated'
 
 export async function verifyCredentials(username: string, password: string): Promise<boolean> {
   const validUsername = process.env['ADMIN_USERNAME']
-  const passwordHash = process.env['ADMIN_PASSWORD_HASH']
+  const validPassword = process.env['ADMIN_PASSWORD']
 
-  if (!validUsername || !passwordHash) return false
-  if (username !== validUsername) return false
+  if (!validUsername || !validPassword) return false
 
-  return bcrypt.compare(password, passwordHash)
+  return username === validUsername && password === validPassword
 }
 
 export async function createSession(): Promise<void> {

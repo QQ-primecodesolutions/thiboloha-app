@@ -1,7 +1,12 @@
 import { db } from '@/lib/db'
 import Link from 'next/link'
+import { getSession } from '@/lib/auth'
+import { redirect } from 'next/navigation'
+
+export const dynamic = 'force-dynamic'
 
 export default async function AdminDashboardPage() {
+  if (!(await getSession())) redirect('/admin/login')
   const [totalSubmissions, pendingSubmissions, totalNews, publishedNews] = await Promise.all([
     db.contactSubmission.count(),
     db.contactSubmission.count({ where: { status: 'pending' } }),

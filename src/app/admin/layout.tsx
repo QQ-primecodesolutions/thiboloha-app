@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getSession } from '@/lib/auth'
 
 async function handleLogout() {
   'use server'
@@ -8,7 +9,13 @@ async function handleLogout() {
   redirect('/admin/login')
 }
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const isAuthenticated = await getSession()
+
+  if (!isAuthenticated) {
+    return <>{children}</>
+  }
+
   return (
     <div className="min-h-screen flex bg-[#f8f9fa]">
       {/* Sidebar */}
