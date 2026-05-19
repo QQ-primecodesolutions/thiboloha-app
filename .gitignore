@@ -32,6 +32,17 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# Claude Code instructions
+CLAUDE.md
+AGENTS.md
+.claude/
+
+# SQLite database
+/db/custom.db
+prisma/db/custom.db
+**/*.db
 
 # vercel
 .vercel
