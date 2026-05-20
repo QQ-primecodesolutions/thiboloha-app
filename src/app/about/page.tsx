@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
+import { StatsCounter } from '@/components/stats-counter'
 
 export const metadata: Metadata = {
   title: 'About Us',
@@ -74,12 +75,12 @@ export default function AboutPage() {
         <section className="bg-gray-50 py-12">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {stats.map((s) => (
-                <div key={s.label} className="bg-white rounded-2xl p-8 text-center shadow-sm hover:-translate-y-1 transition-transform">
-                  <div className="text-4xl font-bold text-[#1e3a8a] mb-2">{s.value}</div>
-                  <div className="text-[#2c3e50] font-medium text-sm">{s.label}</div>
-                </div>
-              ))}
+              <StatsCounter
+                stats={stats}
+                cardClassName="bg-white rounded-2xl p-8 text-center shadow-sm hover:-translate-y-1 transition-transform"
+                numClassName="text-4xl font-bold text-[#1e3a8a] mb-2"
+                labelClassName="text-[#2c3e50] font-medium text-sm"
+              />
             </div>
           </div>
         </section>

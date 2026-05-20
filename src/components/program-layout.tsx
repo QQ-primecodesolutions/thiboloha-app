@@ -1,5 +1,6 @@
 import { Navbar } from './navbar'
 import { Footer } from './footer'
+import { StatsCounter } from './stats-counter'
 import Link from 'next/link'
 
 interface ProgramLayoutProps {
@@ -62,7 +63,7 @@ export function ProgramLayout({
                 >
                   {icon}
                 </div>
-                <h1 className="text-4xl lg:text-5xl font-bold mb-4">{programName}</h1>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">{programName}</h1>
                 <p className="text-lg text-white/90 mb-6 max-w-xl">{tagline}</p>
                 <div className="flex flex-wrap gap-3">
                   <a
@@ -95,17 +96,13 @@ export function ProgramLayout({
         <section className="bg-[#f8f9fa] py-12">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {stats.map((s, i) => (
-                <div key={i} className="text-center">
-                  <div
-                    className="text-4xl font-bold mb-1"
-                    style={{ color: themeColor }}
-                  >
-                    {s.value}
-                  </div>
-                  <div className="text-[#6c757d] font-medium text-sm">{s.label}</div>
-                </div>
-              ))}
+              <StatsCounter
+                stats={stats}
+                cardClassName="text-center"
+                numClassName="text-4xl font-bold mb-1"
+                labelClassName="text-[#6c757d] font-medium text-sm"
+                numColor={themeColor}
+              />
             </div>
           </div>
         </section>
@@ -122,7 +119,7 @@ export function ProgramLayout({
             <p className="text-center text-[#6c757d] mb-8">
               Discover comprehensive special needs education across all disability areas
             </p>
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
               {otherPrograms.map((p) => (
                 <Link
                   key={p.href}

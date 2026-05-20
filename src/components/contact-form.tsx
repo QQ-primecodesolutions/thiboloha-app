@@ -156,7 +156,7 @@ export function ContactForm({ defaultProgram }: { defaultProgram?: string }) {
               <input
                 id="name"
                 {...register('name')}
-                className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#1e3a8a] outline-none"
+                className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#1e3a8a] outline-none"
                 placeholder="e.g. Thabo Mokoena"
               />
               {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
@@ -173,7 +173,7 @@ export function ContactForm({ defaultProgram }: { defaultProgram?: string }) {
                   const formatted = formatSAPhone(e.target.value)
                   setValue('phone', formatted)
                 }}
-                className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#1e3a8a] outline-none"
+                className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#1e3a8a] outline-none"
                 placeholder="+27 58 713 0048"
               />
               {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
@@ -186,7 +186,7 @@ export function ContactForm({ defaultProgram }: { defaultProgram?: string }) {
                 id="email"
                 type="email"
                 {...register('email')}
-                className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#1e3a8a] outline-none"
+                className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#1e3a8a] outline-none"
                 placeholder="you@example.com"
               />
               {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
@@ -222,7 +222,7 @@ export function ContactForm({ defaultProgram }: { defaultProgram?: string }) {
             <button
               type="button"
               onClick={() => setStep((s) => s - 1)}
-              className="px-6 py-2 border-2 border-gray-300 text-gray-600 rounded-full hover:bg-gray-50 transition-colors"
+              className="px-6 py-3 border-2 border-gray-300 text-gray-600 rounded-full hover:bg-gray-50 transition-colors"
             >
               Back
             </button>
@@ -234,7 +234,7 @@ export function ContactForm({ defaultProgram }: { defaultProgram?: string }) {
             <button
               type="button"
               onClick={next}
-              className="bg-[#1e3a8a] text-white font-semibold px-8 py-2 rounded-full hover:bg-blue-900 transition-colors"
+              className="bg-[#1e3a8a] text-white font-semibold px-8 py-3 rounded-full hover:bg-blue-900 transition-colors"
             >
               Next
             </button>
@@ -242,7 +242,7 @@ export function ContactForm({ defaultProgram }: { defaultProgram?: string }) {
             <button
               type="submit"
               disabled={submitting}
-              className="bg-[#f39c12] text-white font-semibold px-8 py-2 rounded-full hover:bg-orange-500 transition-colors disabled:opacity-60"
+              className="bg-[#f39c12] text-white font-semibold px-8 py-3 rounded-full hover:bg-orange-500 transition-colors disabled:opacity-60"
             >
               {submitting ? 'Sending…' : 'Send Message'}
             </button>

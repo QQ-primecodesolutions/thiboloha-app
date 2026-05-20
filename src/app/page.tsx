@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
+import { StatsCounter } from '@/components/stats-counter'
 import { db } from '@/lib/db'
 
 const programs = [
@@ -68,7 +69,7 @@ const achievements = [
 
 const staticNews = [
   {
-    image: '/images/hollyhood.jpg',
+    imageUrl: '/images/hollyhood.jpg',
     date: 'March 2024',
     title: 'Hollywood Foundation Back to School Support',
     description:
@@ -77,7 +78,7 @@ const staticNews = [
     external: true,
   },
   {
-    image: '/images/news2.png',
+    imageUrl: '/images/news2.png',
     date: 'December 2024',
     title: 'Exceptional 2024 NSC Results',
     description:
@@ -86,7 +87,7 @@ const staticNews = [
     external: false,
   },
   {
-    image: '/images/news3.jpg',
+    imageUrl: '/images/news3.jpg',
     date: 'January 2025',
     title: 'New Skills Development Programs',
     description:
@@ -114,7 +115,7 @@ export default async function HomePage() {
   const newsItems =
     dbNews.length > 0
       ? dbNews.map((post) => ({
-          image: '/images/news2.png',
+          imageUrl: (post as { imageUrl?: string | null }).imageUrl ?? null,
           date: post.publishedAt
             ? new Date(post.publishedAt).toLocaleDateString('en-ZA', {
                 month: 'long',
@@ -122,7 +123,7 @@ export default async function HomePage() {
               })
             : '',
           title: post.title,
-          description: post.content.substring(0, 150) + '...',
+          description: post.content.length > 150 ? post.content.substring(0, 150) + '…' : post.content,
           href: '/news',
           external: false,
         }))
@@ -179,15 +180,7 @@ export default async function HomePage() {
         <section className="bg-[#f8f9fa] py-20" id="stats">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {stats.map((s, i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-2xl p-8 text-center shadow hover:-translate-y-1 transition-transform"
-                >
-                  <div className="text-4xl font-bold text-[#1e3a8a] mb-2">{s.value}</div>
-                  <div className="text-[#2c3e50] font-medium">{s.label}</div>
-                </div>
-              ))}
+              <StatsCounter stats={stats} />
             </div>
           </div>
         </section>
@@ -261,18 +254,24 @@ export default async function HomePage() {
                 Stay informed about our latest achievements, events, and important announcements.
               </p>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {newsItems.map((item, i) => (
-                <div
+                <article
                   key={i}
                   className="bg-white rounded-2xl overflow-hidden shadow hover:-translate-y-1 transition-transform"
                 >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-48 object-cover"
-                    suppressHydrationWarning
-                  />
+                  {item.imageUrl ? (
+                    <div className="h-48 overflow-hidden">
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                        suppressHydrationWarning
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-2 bg-[#1e3a8a]" />
+                  )}
                   <div className="p-6">
                     <div className="text-[#16a085] font-semibold text-sm mb-2">{item.date}</div>
                     <h5 className="font-semibold text-[#1e3a8a] mb-3">{item.title}</h5>
@@ -295,7 +294,7 @@ export default async function HomePage() {
                       </Link>
                     )}
                   </div>
-                </div>
+                </article>
               ))}
             </div>
             <div className="text-center mt-10">

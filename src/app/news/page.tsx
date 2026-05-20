@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
+import { NewsCards } from '@/components/news-cards'
 import { db } from '@/lib/db'
 
 export const metadata: Metadata = {
@@ -72,30 +73,13 @@ export default async function NewsPage() {
             {posts.length === 0 ? (
               <p className="text-center text-[#6c757d]">No news posts yet.</p>
             ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {posts.map((post) => (
-                  <article key={post.id} className="bg-white rounded-2xl shadow overflow-hidden hover:-translate-y-1 transition-transform">
-                    <div className="h-2 bg-[#1e3a8a]" />
-                    <div className="p-6">
-                      <div className="text-[#16a085] font-semibold text-sm mb-2">
-                        {post.publishedAt
-                          ? new Date(post.publishedAt).toLocaleDateString('en-ZA', {
-                              month: 'long',
-                              year: 'numeric',
-                              day: 'numeric',
-                            })
-                          : ''}
-                      </div>
-                      <h2 className="font-bold text-[#1e3a8a] text-lg mb-3">{post.title}</h2>
-                      <p className="text-[#6c757d] text-sm leading-relaxed">
-                        {post.content.length > 200
-                          ? post.content.substring(0, 200) + '…'
-                          : post.content}
-                      </p>
-                    </div>
-                  </article>
-                ))}
-              </div>
+              <NewsCards posts={posts.map((p) => ({
+                id: p.id,
+                title: p.title,
+                content: p.content,
+                imageUrl: 'imageUrl' in p ? (p as { imageUrl?: string | null }).imageUrl : null,
+                publishedAt: p.publishedAt ?? null,
+              }))} />
             )}
           </div>
         </section>

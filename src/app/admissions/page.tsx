@@ -123,7 +123,7 @@ export default function AdmissionsPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {steps.map((step) => (
                 <div key={step.number} className="relative">
-                  <div className="text-5xl font-extrabold text-[#1e3a8a]/10 mb-2">{step.number}</div>
+                  <div className="text-4xl sm:text-5xl font-extrabold text-[#1e3a8a]/10 mb-2">{step.number}</div>
                   <h3 className="font-bold text-[#1e3a8a] text-lg mb-2">{step.title}</h3>
                   <p className="text-[#6c757d] text-sm leading-relaxed">{step.description}</p>
                 </div>

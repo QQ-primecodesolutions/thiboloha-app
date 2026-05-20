@@ -135,6 +135,35 @@ export default function AdminContactContent() {
               <hr className="my-4" />
               <p className="text-sm text-[#2c3e50] whitespace-pre-wrap">{selected.message}</p>
               <hr className="my-4" />
+              {selected.email && (
+                <div className="mb-4">
+                  <p className="text-xs text-[#6c757d] mb-2 font-medium uppercase tracking-wide">Reply via</p>
+                  <div className="flex gap-2 flex-wrap">
+                    <a
+                      href={`https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(selected.email)}&su=${encodeURIComponent(`Re: Your enquiry to Thiboloha Special School`)}&body=${encodeURIComponent(`Dear ${selected.name},\n\nThank you for contacting Thiboloha Special School.\n\n`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#ea4335] text-white hover:bg-[#c5382a] transition-colors"
+                    >
+                      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
+                      </svg>
+                      Gmail
+                    </a>
+                    <a
+                      href={`https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(selected.email)}&subject=${encodeURIComponent(`Re: Your enquiry to Thiboloha Special School`)}&body=${encodeURIComponent(`Dear ${selected.name},\n\nThank you for contacting Thiboloha Special School.\n\n`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#0078d4] text-white hover:bg-[#006cbf] transition-colors"
+                    >
+                      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 7.387v10.478L19.2 21V9.196l-7.2-2.4L4.8 9.196V21L0 17.865V7.387L12 3.6z"/>
+                      </svg>
+                      Outlook
+                    </a>
+                  </div>
+                </div>
+              )}
               <div className="flex gap-2 flex-wrap">
                 {['pending', 'read', 'replied'].map((st) => (
                   <button
