@@ -24,15 +24,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'File too large (max 5 MB)' }, { status: 400 })
   }
 
-  const bytes = await file.arrayBuffer()
-  const buffer = Buffer.from(bytes)
-
   const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
-  const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+  const filename = `news/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const { put } = await import('@vercel/blob')
+    const blob = await put(filename, file, { access: 'public', addRandomSuffix: false })
+    return NextResponse.json({ url: blob.url })
+  }
+
+  // Local dev fallback
+  const bytes = await file.arrayBuffer()
   const dir = path.join(process.cwd(), 'public', 'images', 'news')
-
   await mkdir(dir, { recursive: true })
-  await writeFile(path.join(dir, filename), buffer)
-
-  return NextResponse.json({ url: `/images/news/${filename}` })
+  await writeFile(path.join(dir, filename.replace('news/', '')), Buffer.from(bytes))
+  return NextResponse.json({ url: `/images/news/${filename.replace('news/', '')}` })
 }
