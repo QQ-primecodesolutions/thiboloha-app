@@ -7,7 +7,7 @@ const createSchema = z.object({
   title: z.string().min(1),
   slug: z.string().min(1),
   content: z.string().min(1),
-  imageUrl: z.string().optional(),
+  imageUrl: z.string().nullish(),
   published: z.boolean().default(false),
 })
 

@@ -11,15 +11,19 @@ export async function GET(request: NextRequest) {
   const program = searchParams.get('program')
   const status = searchParams.get('status')
 
-  const submissions = await db.contactSubmission.findMany({
-    where: {
-      ...(program ? { program } : {}),
-      ...(status ? { status } : {}),
-    },
-    orderBy: { createdAt: 'desc' },
-  })
-
-  return NextResponse.json(submissions)
+  try {
+    const submissions = await db.contactSubmission.findMany({
+      where: {
+        ...(program ? { program } : {}),
+        ...(status ? { status } : {}),
+      },
+      orderBy: { createdAt: 'desc' },
+    })
+    return NextResponse.json(submissions)
+  } catch (err) {
+    console.error('Contact submissions DB error:', err)
+    return NextResponse.json({ error: 'Database error' }, { status: 500 })
+  }
 }
 
 export async function PATCH(request: NextRequest) {

@@ -25,15 +25,22 @@ export default function AdminContactContent() {
   const [filter, setFilter] = useState({ program: '', status: '' })
   const [selected, setSelected] = useState<Submission | null>(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   async function load() {
     setLoading(true)
+    setError(null)
     const params = new URLSearchParams()
     if (filter.program) params.set('program', filter.program)
     if (filter.status) params.set('status', filter.status)
     const res = await fetch(`/api/admin/contact?${params}`)
     const data = await res.json()
-    setSubmissions(data)
+    if (!res.ok) {
+      setError(data.error ?? 'Failed to load submissions')
+      setSubmissions([])
+    } else {
+      setSubmissions(Array.isArray(data) ? data : [])
+    }
     setLoading(false)
   }
 
@@ -85,6 +92,8 @@ export default function AdminContactContent() {
         <div className="lg:col-span-2 bg-white rounded-xl shadow overflow-hidden">
           {loading ? (
             <div className="p-8 text-center text-[#6c757d]">Loading…</div>
+          ) : error ? (
+            <div className="p-8 text-center text-red-600">{error}</div>
           ) : submissions.length === 0 ? (
             <div className="p-8 text-center text-[#6c757d]">No submissions found.</div>
           ) : (
