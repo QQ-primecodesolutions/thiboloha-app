@@ -29,6 +29,11 @@ export function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // Public API routes — not admin-scoped, always reachable
+  if (pathname.startsWith('/api/') && !pathname.startsWith('/api/admin/')) {
+    return NextResponse.next()
+  }
+
   // Auth endpoint is always reachable — handles login and logout
   if (pathname.startsWith('/api/admin/auth')) {
     return NextResponse.next()
