@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
     },
   })
 
+  revalidatePath('/')
   revalidatePath('/news')
   return NextResponse.json(post, { status: 201 })
 }
@@ -62,6 +63,7 @@ export async function PATCH(request: NextRequest) {
     },
   })
 
+  revalidatePath('/')
   revalidatePath('/news')
   return NextResponse.json(post)
 }
@@ -76,6 +78,7 @@ export async function DELETE(request: NextRequest) {
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
 
   await db.newsPost.delete({ where: { id } })
+  revalidatePath('/')
   revalidatePath('/news')
   return NextResponse.json({ success: true })
 }
