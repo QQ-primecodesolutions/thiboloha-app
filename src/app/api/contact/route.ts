@@ -11,6 +11,9 @@ const schema = z.object({
 })
 
 export async function POST(request: NextRequest) {
+  const usingTurso = !!(process.env['TURSO_DATABASE_URL'] && process.env['TURSO_AUTH_TOKEN'])
+  console.log('[contact] DB backend:', usingTurso ? 'turso' : 'local-sqlite')
+
   try {
     const body = await request.json()
     const data = schema.parse(body)
@@ -26,12 +29,13 @@ export async function POST(request: NextRequest) {
       },
     })
 
+    console.log('[contact] Created submission id:', submission.id)
     return NextResponse.json({ success: true, id: submission.id }, { status: 201 })
   } catch (err) {
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid data', details: err.issues }, { status: 400 })
     }
-    console.error('Contact API error:', err)
+    console.error('[contact] DB error:', err)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
