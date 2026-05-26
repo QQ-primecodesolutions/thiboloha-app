@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/auth'
@@ -37,6 +38,7 @@ export async function POST(request: NextRequest) {
     },
   })
 
+  revalidatePath('/news')
   return NextResponse.json(post, { status: 201 })
 }
 
@@ -60,6 +62,7 @@ export async function PATCH(request: NextRequest) {
     },
   })
 
+  revalidatePath('/news')
   return NextResponse.json(post)
 }
 
@@ -73,5 +76,6 @@ export async function DELETE(request: NextRequest) {
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
 
   await db.newsPost.delete({ where: { id } })
+  revalidatePath('/news')
   return NextResponse.json({ success: true })
 }
