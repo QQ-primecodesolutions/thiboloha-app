@@ -109,7 +109,7 @@ export default function AdminNewsContent() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-[#1e3a8a]">News Posts</h1>
         <button
@@ -228,58 +228,90 @@ export default function AdminNewsContent() {
       ) : posts.length === 0 ? (
         <div className="p-8 text-center text-[#6c757d]">No posts yet.</div>
       ) : (
-        <div className="bg-white rounded-xl shadow overflow-hidden">
-          <table className="w-full text-sm">
-            <thead className="bg-[#f8f9fa]">
-              <tr className="text-left text-[#6c757d]">
-                <th className="p-3 w-16">Image</th>
-                <th className="p-3">Title</th>
-                <th className="p-3">Status</th>
-                <th className="p-3">Date</th>
-                <th className="p-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {posts.map((post) => (
-                <tr key={post.id} className="border-b last:border-0">
-                  <td className="p-3">
-                    {post.imageUrl ? (
-                      <img src={post.imageUrl} alt="" className="w-12 h-10 object-cover rounded" />
-                    ) : (
-                      <div className="w-12 h-10 bg-gray-100 rounded flex items-center justify-center">
-                        <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14" />
-                        </svg>
-                      </div>
-                    )}
-                  </td>
-                  <td className="p-3 font-medium">{post.title}</td>
-                  <td className="p-3">
-                    <span
-                      className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                        post.published ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
-                      }`}
-                    >
-                      {post.published ? 'Published' : 'Draft'}
-                    </span>
-                  </td>
-                  <td className="p-3 text-[#6c757d]">
-                    {new Date(post.createdAt).toLocaleDateString('en-ZA')}
-                  </td>
-                  <td className="p-3">
-                    <div className="flex gap-2">
-                      <button onClick={() => openEdit(post)} className="text-xs text-blue-600 hover:underline">Edit</button>
-                      <button onClick={() => togglePublish(post)} className="text-xs text-[#16a085] hover:underline">
-                        {post.published ? 'Unpublish' : 'Publish'}
-                      </button>
-                      <button onClick={() => deletePost(post.id)} className="text-xs text-red-500 hover:underline">Delete</button>
+        <>
+          {/* Mobile cards */}
+          <div className="md:hidden space-y-3">
+            {posts.map((post) => (
+              <div key={post.id} className="bg-white rounded-xl shadow p-4">
+                <div className="flex items-start gap-3 mb-3">
+                  {post.imageUrl ? (
+                    <img src={post.imageUrl} alt="" className="w-14 h-12 object-cover rounded shrink-0" />
+                  ) : (
+                    <div className="w-14 h-12 bg-gray-100 rounded flex items-center justify-center shrink-0">
+                      <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14" />
+                      </svg>
                     </div>
-                  </td>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-[#1e3a8a] text-sm leading-snug mb-1 truncate">{post.title}</p>
+                    <div className="flex items-center gap-2">
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${post.published ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                        {post.published ? 'Published' : 'Draft'}
+                      </span>
+                      <span className="text-xs text-[#6c757d]">{new Date(post.createdAt).toLocaleDateString('en-ZA')}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-4 border-t pt-3">
+                  <button onClick={() => openEdit(post)} className="text-xs text-blue-600 font-medium">Edit</button>
+                  <button onClick={() => togglePublish(post)} className="text-xs text-[#16a085] font-medium">
+                    {post.published ? 'Unpublish' : 'Publish'}
+                  </button>
+                  <button onClick={() => deletePost(post.id)} className="text-xs text-red-500 font-medium">Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop table */}
+          <div className="hidden md:block bg-white rounded-xl shadow overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="bg-[#f8f9fa]">
+                <tr className="text-left text-[#6c757d]">
+                  <th className="p-3 w-16">Image</th>
+                  <th className="p-3">Title</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3">Date</th>
+                  <th className="p-3">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {posts.map((post) => (
+                  <tr key={post.id} className="border-b last:border-0">
+                    <td className="p-3">
+                      {post.imageUrl ? (
+                        <img src={post.imageUrl} alt="" className="w-12 h-10 object-cover rounded" />
+                      ) : (
+                        <div className="w-12 h-10 bg-gray-100 rounded flex items-center justify-center">
+                          <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14" />
+                          </svg>
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-3 font-medium">{post.title}</td>
+                    <td className="p-3">
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${post.published ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                        {post.published ? 'Published' : 'Draft'}
+                      </span>
+                    </td>
+                    <td className="p-3 text-[#6c757d]">{new Date(post.createdAt).toLocaleDateString('en-ZA')}</td>
+                    <td className="p-3">
+                      <div className="flex gap-2">
+                        <button onClick={() => openEdit(post)} className="text-xs text-blue-600 hover:underline">Edit</button>
+                        <button onClick={() => togglePublish(post)} className="text-xs text-[#16a085] hover:underline">
+                          {post.published ? 'Unpublish' : 'Publish'}
+                        </button>
+                        <button onClick={() => deletePost(post.id)} className="text-xs text-red-500 hover:underline">Delete</button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   )
